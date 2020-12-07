@@ -1,0 +1,85 @@
+#SESION 6
+
+#RETO 1
+
+#Con base en el ejemplo 1, modifica el agrupamiento 
+para que muestre el costo promedio por habitación 
+por país de las propiedades de tipo casa.
+
+#Filtramos las propiedades con $match
+
+{
+   property_type: 'House',
+   bedrooms: {$gte: 1}
+}
+
+#Agregamos el costo por recámara con $addFields
+
+{
+   costo_recamara: {$divide: ["$price", "$bedrooms"]}
+}
+
+#Agrupamos la suma de recámaras y del total agrupando en este caso por país. Para ello usamos $group.
+
+{
+  _id: "$address.country",
+  recamaras: {
+    $sum: 1
+  },
+  total: {
+    $sum: "$costo_recamara"
+  }
+}
+
+#Agregamos el campo costo promedio para cada país con $addFields, creamos un alias al _id para hacer más claro el valor que guarda.
+
+{
+  pais: "$_id",
+  costo_promedio: {$divide: ["$total", "$recamaras"]}
+}
+
+#Agregamos una proyección para quitar campos 
+irrelevantes con project.
+
+{
+  _id:0,
+  pais:1,
+  costo_promedio:1
+}
+
+
+#RETO 2
+
+#Usando las colecciones comments y users, se requiere 
+conocer el correo y contraseña de cada persona que 
+realizó un comentario. Construye un pipeline que 
+genere como resultado estos datos.
+
+#Primero, obtenemos la relación con $lookup.
+
+{
+  from: 'users',
+  localField: 'name',
+  foreignField: 'name',
+  as: 'usuario'
+}
+
+#Posteriormente, obtenemos el objeto del arreglo, su campo password y finalmente proyectamos los datos necesarios.
+
+$addFields
+{
+  usuario_objeto: {$arrayElemAt: ["$usuario", 0]}
+}
+
+$addFields
+{
+  usuario_password: "$usuario_objeto.password"
+}
+
+$project
+{
+  _id:0,
+  name:1,
+  email:1,
+  usuario_password:1
+}

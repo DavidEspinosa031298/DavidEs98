@@ -1,0 +1,64 @@
+#SESION 4
+
+#RETO 1
+
+#Usando la base de datos sample_mflix, proyecta los 
+datos que se solicitan.
+
+#Fecha, nombre y texto de cada comentario.
+
+{date:1, name:1, text:1}
+
+#Título, elenco y año de cada película.
+
+{title:1, cast:1, year:1}
+
+#Nombre y contraseña de cada usuario.
+
+{name:1, password:1}
+
+#RETO 2
+
+#Usando la base de datos sample_mflix, agrega 
+proyeccciones, filtros, ordenamientos y límites 
+que permitan contestar las siguientes preguntas.
+
+#¿Qué comentarios ha hecho Greg Powell?
+
+{name: "Greg Powell"}
+
+#¿Qué comentarios han hecho Greg Powell o Mercedes 
+Tyler?
+
+{$or: [{name: "Greg Powell"}, {name: "Mercedes Tyler"}]}
+
+#¿Cuál es el máximo número de comentarios en una 
+película?
+
+
+#Para responder esta pregunta, necesitamos tres cosas.
+
+#Proyectar el número de comentarios
+
+{num_mflix_comments: 1}	
+
+#Ordenar el número de comentarios de forma descendente.
+
+{num_mflix_comments:-1}
+
+#Limitar los resultados a 1.
+
+
+#¿Cuál es título de las cinco películas más comentadas?
+
+Para responder esta pregunta, necesitamos tres cosas.
+
+#Proyectar el título de las películas.
+
+{title: 1}	
+
+#Ordenar el número de comentarios de forma descendente.
+
+{num_mflix_comments: -1}
+
+#Limitar los resultados a 5.

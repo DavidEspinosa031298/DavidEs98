@@ -1,2 +1,2 @@
 # DavidEs98
-DataAnalyst Bedu
+DataAnalysis Bedu
